@@ -1,0 +1,41 @@
+<div class="bg-light min-vh-100 d-flex flex-row align-items-center">
+  <c-container>
+    <c-row class="justify-content-center">
+      <c-col lg="7" md="9" xl="6">
+        <c-card class="mx-4">
+          <c-card-body class="p-4">
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit($event)">
+              <h1>Register</h1>
+              <p class="text-medium-emphasis">Create your account</p>
+              <c-input-group class="mb-3">
+                <span cInputGroupText>
+                  <svg cIcon name="cilUser"></svg>
+                </span>
+                <input formControlName="username" cFormControl placeholder="Username" required />
+              </c-input-group>
+              <c-input-group class="mb-3">
+                <span cInputGroupText>&#64;</span>
+                <input formControlName="email" cFormControl placeholder="Email" required />
+              </c-input-group>
+              <c-input-group class="mb-3">
+                <span cInputGroupText>
+                  <svg cIcon name="cilLockLocked"></svg>
+                </span>
+                <input formControlName="password" cFormControl placeholder="Password" type="password" required />
+              </c-input-group>
+              <c-input-group class="mb-4">
+                <span cInputGroupText>
+                  <svg cIcon name="cilLockLocked"></svg>
+                </span>
+                <input formControlName="repeatPassword" cFormControl placeholder="Repeat password" type="password" required />
+              </c-input-group>
+              <div class="d-grid">
+                <button cButton color="success" type="submit" [disabled]="registerForm.invalid">Create Account</button>
+              </div>
+            </form>
+          </c-card-body>
+        </c-card>
+      </c-col>
+    </c-row>
+  </c-container>
+</div>

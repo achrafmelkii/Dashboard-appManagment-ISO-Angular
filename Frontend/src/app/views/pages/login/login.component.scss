@@ -1,0 +1,49 @@
+#back {
+    background-color: #304E4A !important;
+    background-image: url('/assets/img/avatars/Guideline-illus.png') !important;
+}
+
+#loginbtn{
+    background-image: url('/src/assets/img/avatars/button.png') !important;
+}
+.responsive-text {
+    font-size: 24px;
+  }
+@media only screen and (max-width: 600px) {
+    .responsive-img {
+      width: 100%;
+      height: auto;
+    }
+    
+  .responsive-text {
+    font-size: 4vw;
+  }
+  }
+  :host ::ng-deep .p-progress-spinner {
+    background-color: transparent !important;
+    --surface-ground: transparent;
+    width: 4rem !important;
+    height: 4rem !important;
+    color: #FFFFFF !important;
+    // stroke:#FFFFFF !important;
+  
+}
+:host ::ng-deep .p-progress-spinner .p-progress-spinner-color {
+    stroke:#FFFFFF !important;
+}
+:host ::ng-deep .p-progress-spinner .p-progress-spinner-circle {
+  stroke: white !important;
+}
+
+.spinner-container {
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  background-color: transparent;
+
+}
+
+
+

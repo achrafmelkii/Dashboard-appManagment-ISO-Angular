@@ -1,0 +1,56 @@
+// Here you can add other styles
+
+
+.sidebar{
+  --cui-sidebar-bg: #304E4A;
+}
+.header{
+  --cui-header-bg: #EBFFE3;
+}
+.footer{
+  --cui-footer-bg: #EBFFE3;
+}
+.p-paginator{
+  background: #DEFBCF;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+  background: #DEFBCF;
+}
+
+th {
+  background-color: #DEFBCF;
+}
+
+td{
+  background-color: #EBFFE3;
+}
+.card{
+  background-color: #EBFFE3;
+}
+
+.p-toolbar{
+  background-color: #DEFBCF;
+}
+
+
+#defaultl{
+  background-color: #EBFFE3;
+}
+#edit{
+  background-color: #FFA666;
+  border-radius: 2rem;
+  margin-right: 8px;
+}
+
+#delete{
+  background-color: #FF6F6F;
+  border-radius: 2rem;
+  margin-right: 8px;
+}
+.chartjs-tooltip-body-item td{
+  background-color: transparent !important;
+}
+.chartjs-tooltip-header-item th{
+  background-color: transparent !important;
+}

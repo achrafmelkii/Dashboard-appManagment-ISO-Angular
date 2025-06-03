@@ -1,0 +1,175 @@
+<!-- users.component.html -->
+<div class="card">
+    <p-toast></p-toast>
+    <p-toolbar styleClass="mb-3 gap-2">
+    <ng-template pTemplate="start" >
+      <strong>Admin</strong>
+    </ng-template>
+    <!-- <div class="p-toolbar-group-end">
+      <button pButton pRipple label="Add Admin" icon="pi pi-plus"  class="p-button-success mr-2" style="border-radius: 10px;" (click)="openNew()"></button>
+  </div> -->
+  <ng-template pTemplate="end">
+    <div class="flex align-items-center gap-2">
+      <button pButton pRipple label="Add Admin" icon="pi pi-plus"  class="p-button-success mr-2" style="border-radius: 10px;    margin-right: 8px;" (click)="openNew()"></button>
+
+      <button pButton pRipple label="History" icon="pi"  class="p-button mr-2" style="border-radius: 10px;" (click)="OpenHistory()"></button>
+    </div>
+</ng-template>
+    </p-toolbar>
+    
+    <p-table #dt1 [value]="admins"  selectionMode="single" [(selection)]="editingAdmin" dataKey="email" [tableStyle]="{'min-width': '50rem'}" [paginator]="true" [rows]="10" stateStorage="session" stateKey="admin-session">
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="email">email <p-sortIcon field="email"></p-sortIcon></th>
+          <th pSortableColumn="isSuperAdmin">isSuperAdmin <p-sortIcon field="isSuperAdmin"></p-sortIcon></th>
+          <th pSortableColumn="name">name <p-sortIcon field="name"></p-sortIcon></th>
+          <!-- Add more columns based on your User model -->
+          <th>Actions</th>
+        </tr>
+        <tr>
+          <th>
+            <input pInputText type="text" (input)="dt1.filter($any($event.target).value, 'email', 'contains')" placeholder="Search by email" class="w-full" ngModelOptions="{ standalone: true }"/>
+          </th>
+          <th>
+            <input pInputText type="text" (input)="dt1.filter($any($event.target).value, 'isSuperAdmin', 'contains')" placeholder="Search by isSuperAdmin" class="w-full" ngModelOptions="{ standalone: true }"/>
+          </th>
+          <th></th>
+          <th></th>
+          <!-- Add more input fields for other columns -->
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-admin>
+        <tr>
+          <td>{{ admin.email }}</td>
+          <td>{{ admin.isSuperAdmin }}</td>
+          <td>{{ admin.name }}</td>
+          <!-- Add more columns based on your User model -->
+          <td>
+            <button id="edit"  type="button" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editAdmin(admin)"></button>
+            
+            <button id="delete" type="button" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteAdmin(admin.ID)"></button>
+        </td>
+  
+        </tr>
+      </ng-template>
+    </p-table>
+  
+    <div *ngIf="editmode">
+      <h2>Edit User</h2>
+      <div>
+        <label for="editUserName">Email:</label>
+        <input pInputText type="text" id="editUserName" [(ngModel)]="editingAdmin.email" required>
+      </div>
+      <div>
+        <label for="editUserScore">SuperAdmin:</label>
+        <input pInputText type="number" id="editUserScore" [(ngModel)]="editingAdmin.isSuperAdmin" required>
+      </div>
+      <!-- Add more fields as needed -->
+  
+      <button pButton type="button" label="Update" (click)="updateAdmin(editingAdmin.ID, editingAdmin)"></button>
+      <button pButton type="button" label="Cancel" (click)="cancelEdit()"></button>
+    </div>
+    <!-- Dialog -->
+    <p-dialog [(visible)]="productDialog" [style]="{ width: '700px' }" header="User Details" [modal]="true" styleClass="p-fluid">
+      <ng-template pTemplate="content">
+
+
+        <p-table #dt1 [value]="users"  selectionMode="single" [(selection)]="editingUser" dataKey="email"  [paginator]="true" [rows]="10" stateStorage="session" stateKey="choose-session">
+            <ng-template pTemplate="header">
+                <tr>
+                <th pSortableColumn="email">email <p-sortIcon field="email"></p-sortIcon></th>
+
+                </tr>
+                <tr>
+                <th>
+                    <input pInputText type="text" (input)="dt1.filter($any($event.target).value, 'email', 'contains')" placeholder="Search by email" class="w-full" ngModelOptions="{ standalone: true }"/>
+                </th>
+                <!-- Add more input fields for other columns -->
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-user>
+              <tr [pSelectableRow]="user">
+              <td>{{ user.email }}</td>
+             
+      
+              </tr>
+          </ng-template>
+            </p-table>
+
+        <!-- Customize the content based on your requirements -->
+       
+        <!-- Add more fields as needed -->
+      </ng-template>
+      <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Confirm" icon="pi pi-check" class="p-button-text" (click)="addAdmin()"></button>
+      </ng-template>
+    </p-dialog>
+  
+    <p-dialog [(visible)]="editmode" [style]="{ width: '450px' }" header="User Details" [modal]="true" styleClass="p-fluid">
+      <ng-template pTemplate="content">
+        <!-- Customize the content based on your requirements -->
+        <div>
+          <label for="userID">Name: </label>
+          <input pInputText type="text" id="userID" name="userID" [(ngModel)]="editingAdmin.email" required>
+        </div>
+        <br>
+        <div style="text-align: center;">
+        
+          <!-- <input pCheckbox type="checkbox" id="name" name="Name"  [(ngModel)]="editingAdmin.isSuperAdmin" required> -->
+          <p-checkbox id="name" name="Name" [(ngModel)]="editingAdmin.isSuperAdmin" label="isSuperAdmin" [binary]="true" inputId="binary"></p-checkbox>
+          <!-- <label for="name">isSuperAdmin: </label> -->
+
+        </div>
+        <!-- Add more fields as needed -->
+      </ng-template>
+      <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="cancelEdit()"></button>
+    
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="updateAdmin(editingAdmin.ID, editingAdmin)"></button>
+      </ng-template>
+    </p-dialog>
+    <p-dialog [(visible)]="historymode" [style]="{ width: '700px' }" header="History" [modal]="true" styleClass="p-fluid">
+      <ng-template pTemplate="content">
+
+
+        <p-table #dt1 [value]="history"   dataKey="text"  [paginator]="true" [rows]="10">
+            <ng-template pTemplate="header">
+                <tr>
+                <th pSortableColumn="text">history <p-sortIcon field="text"></p-sortIcon></th>
+                <th pSortableColumn="date">date <p-sortIcon field="date"></p-sortIcon></th>
+                </tr>
+
+                <tr>
+                <th>
+                    <input pInputText type="text" (input)="dt1.filter($any($event.target).value, 'text', 'contains')" placeholder="Search by history" class="w-full" ngModelOptions="{ standalone: true }"/>
+                </th>
+                <th>
+                  <input pInputText type="date" (input)="dt1.filter($any($event.target).value, 'date', 'contains')" placeholder="Search by date" class="w-full" ngModelOptions="{ standalone: true }"/>
+              </th>
+                <!-- Add more input fields for other columns -->
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-hist>
+              <tr [pSelectableRow]="hist">
+              <td><strong>{{hist.admin}}</strong>{{ " " + hist.action + " " }} <strong>{{ hist.data }}</strong>  {{" " + hist.endaction}}</td>
+             
+              <td style="text-align: end;"> {{hist.date  | date }}</td>
+              </tr>
+          </ng-template>
+            </p-table>
+
+        <!-- Customize the content based on your requirements -->
+       
+        <!-- Add more fields as needed -->
+      </ng-template>
+      <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="CloseHistory()"></button>
+      
+      </ng-template>
+    </p-dialog>
+
+  </div>
+  <br>
+  <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+  
