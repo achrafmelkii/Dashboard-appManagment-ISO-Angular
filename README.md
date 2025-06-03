@@ -1,2 +1,2 @@
 # Dashboard-appManagment-ISO-Angular
-front end for the ISO Project
+Angular + NodeJS web App for the ISO Project
