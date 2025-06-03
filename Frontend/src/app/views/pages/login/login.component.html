@@ -1,0 +1,89 @@
+
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+<div id="back" class="bg-light min-vh-100 d-flex flex-row align-items-center">
+  <p-toast></p-toast>
+  <c-container>
+    <c-row class="justify-content-center">
+      <div style="text-align: center; color: aliceblue;"><h4>Admin Interface</h4></div>
+      <div style="text-align: center; color: aliceblue;">
+        <img src="/assets/img/avatars/logo.png" alt="logoEmbajador" class="responsive-img">
+      </div>
+    </c-row>
+    <c-row> <br> <br> </c-row>
+    <c-row>      
+      <div style=" position: relative; text-align: center; color: aliceblue;">
+        <button cButton  style="border: none; padding: 0; background: none;" (click)="signIn()">
+          <img src="/assets/img/avatars/button.png" alt="Button Image" class="responsive-img">
+          <div style="position: absolute; top: 22%; left: 50%; transform: translate(-50%, -50%);  color: black;" class="responsive-text">
+            <strong>Log in with Microsoft</strong>
+          </div>
+        </button>
+      </div>
+    </c-row>
+    <c-row>  
+      <div *ngIf="loading" class="spinner-container" style="text-align: center; background-color: transparent; ">
+        <p-progressSpinner [style]="{background: 'transparent'}" styleClass="w-1rem h-1rem" strokeWidth="2" animationDuration=".5s"></p-progressSpinner>
+    </div>
+    </c-row>
+     
+      <!-- <c-col md="8">
+        <c-card-group>
+          <c-card class="p-4">
+            <c-card-body>
+              <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+                <h1>Login</h1>
+                <p class="text-medium-emphasis">Sign In to your account</p>
+                <c-input-group class="mb-3">
+                  <span cInputGroupText>
+                    <svg cIcon name="cilUser"></svg>
+                  </span>
+                  <input formControlName="username" cFormControl placeholder="Username" required />
+                </c-input-group>
+                <c-input-group class="mb-4">
+                  <span cInputGroupText>
+                    <svg cIcon name="cilLockLocked"></svg>
+                  </span>
+                  <input
+                    formControlName="password"
+                    cFormControl
+                    placeholder="Password"
+                    type="password"
+                    required
+                  />
+                </c-input-group>
+                <c-row>
+                  <c-col xs="6">
+                    <button cButton class="px-4" color="primary" type="submit">
+                      Login
+                    </button>
+
+                    
+                  </c-col>
+                  <c-col class="text-right" xs="6">
+                    <button cButton class="px-0" color="link">
+                      Forgot password?
+                    </button>
+                  </c-col>
+                </c-row>
+              </form>
+            </c-card-body>
+          </c-card>
+          <c-card [ngStyle]="{'width.%': 44}" class="text-white bg-primary py-5">
+            <c-card-body class="text-center">
+              <div>
+                <h2>Sign up</h2>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                  tempor incididunt ut labore et dolore magna aliqua.
+                </p>
+                <button [active]="true" cButton class="mt-3" color="primary" routerLink="/register">
+                  Register Now!
+                </button>
+              </div>
+            </c-card-body>
+          </c-card>
+        </c-card-group>
+      </c-col> -->
+
+  </c-container>
+</div>

@@ -1,0 +1,137 @@
+<div *ngIf="isLoading">
+    <!-- Display loading indicator here -->
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+  
+  
+  <div *ngIf="!isLoading">
+    <p-toolbar styleClass="mb-4 gap-2">
+      <ng-template pTemplate="start" >
+        <strong>Quiz</strong>
+      </ng-template>
+        <ng-template pTemplate="end">
+          <button pButton pRipple label="New Quiz" icon="pi pi-plus" class="p-button-success mr-2 " style="border-radius: 10px;" (click)="openNew()"></button>
+      </ng-template>
+        </p-toolbar>
+      <p-table #dt1 [value]="combinedData " selectionMode="single" [(selection)]="quiz" dataKey="ID" [tableStyle]="{'min-width': '50rem'}" [paginator]="true" [rows]="4" [scrollable]="true">
+          <ng-template pTemplate="header" cTableColor="light">
+            <tr>
+              <th><svg cIcon name="cilNotes"></svg></th>
+              <th pSortableColumn="question.Text">  Question <p-sortIcon field="Text"></p-sortIcon></th>
+              <th pSortableColumn="question.Options" > Options<p-sortIcon field="Options"></p-sortIcon></th>
+              <th>Correct Answer</th>
+              <th style="min-width:150px" ><svg cIcon name="cilSettings"></svg> Actions</th>
+            </tr>
+            <tr>
+              <th></th>
+              <th>
+                
+                  <!-- <input pInputText type="text" (input)="onQuestionFilter($event)" placeholder="Search by Question" class="w-full" ngModelOptions="{ standalone: true }"/> -->
+                  <input pInputText type="text" (input)="dt1.filter($any($event.target).value, 'question.Text', 'contains')" placeholder="Search by Name" class="w-full" ngModelOptions="{ standalone: true }"/>
+                </th>
+                <th>
+                  <input pInputText type="text" (input)="dt1.filter($any($event.target).value, 'question.Options', 'contains')" placeholder="Search by Name" class="w-full" ngModelOptions="{ standalone: true }"/>
+  
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+          </ng-template>
+          <ng-template  pTemplate="body" let-quiz>
+            <tr>
+              <td></td>
+              <td>
+                <!-- <h6>{{ data.key }}</h6> -->
+                <h5>{{ quiz.question.Text }}</h5>
+                
+            
+              </td>
+              <td>
+                <div *ngFor="let opt of quiz.question.Options"><p>• {{ opt }}</p></div>
+              </td>
+              <td>
+                <p><b>{{ quiz.question.CorrectAnswer }}</b></p>
+              </td>
+              <td>
+          
+                <button pButton id="edit"  icon="pi pi-pencil" class=" p-button-success mr-2"  (click)="editQuestion(quiz.key,quiz.question)"></button>
+                <button pButton id="delete" icon="pi pi-trash" class=" p-button-warning"  (click)="deleteQuiz(quiz.key)"></button>
+            
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+    </div>
+  
+  
+    <!-- Editing dialog -->
+  
+  <p-dialog [(visible)]="isEditing" [style]="{ width: '450px',height:'650px' }" header="Edit quiz" [draggable]="false" [modal]="true" styleClass="p-fluid" (onHide)="cancelEdit()">
+    <ng-template pTemplate="content">
+  
+      <div>
+        <label for="name">Name:</label>
+        <input pInputText type="text" id="name" [(ngModel)]="editingQuiz.Text" required>
+      </div>
+  
+      <div>
+        <label for="Options">Options: </label>
+        <input pInputText placeholder="Option 1." type="text" [(ngModel)]="option1">
+        <input pInputText placeholder="Option 2." type="text" [(ngModel)]="option2">
+        <input pInputText placeholder="Option 3." type="text" [(ngModel)]="option3">
+      </div>
+      <div >
+        <label for="Imageurl">Correct Answer: </label>
+        <!-- <input pInputText  placeholder="A.B.C.D" type="text" [(ngModel)]="CorrectA"> -->
+        <div class="card flex justify-content-center">
+          <p-dropdown [options]="choices" [(ngModel)]="CorrectA" [showClear]="true" placeholder="Select the correct answer"></p-dropdown>
+        </div>
+  
+      </div>
+    </ng-template>
+  
+    <ng-template pTemplate="footer">
+      <button  pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="cancelEdit()"></button>
+      <button  pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="updateQuestion(quizId, editingQuiz)"></button>
+    
+    </ng-template>
+  
+  </p-dialog>
+  
+  
+    <!-- Dialog -->
+  <p-dialog [(visible)]="productDialog" [style]="{ width: '450px',height:'650px' }" header="New Quiz" [draggable]="false" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content">
+    <!-- Customize the content based on your requirements -->
+      <div>
+        <label for="Question">Question: </label>
+        <input pInputText  type="text"   placeholder="Question??" type="text" id="Question"  [(ngModel)]="Text">
+      </div>
+  
+      <div>
+            <label for="Options">Options: </label>
+            <input pInputText placeholder="Option 1." type="text" [(ngModel)]="option1">
+            <input pInputText placeholder="Option 2." type="text" [(ngModel)]="option2">
+            <input pInputText placeholder="Option 3." type="text" [(ngModel)]="option3">
+      </div>
+  
+      <div >
+  
+        <label for="Imageurl">Correct Answer: </label>
+        <div class="card flex justify-content-center">
+            <p-dropdown [options]="choices" [(ngModel)]="CorrectA" [showClear]="true" placeholder="Select the correct answer"></p-dropdown>
+        </div>
+  
+      </div>
+  
+    <!-- Add more fields as needed -->
+    </ng-template>
+  
+    <ng-template pTemplate="footer">
+      
+      <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="createQuiz()"></button>
+      <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="closeNew()" ></button>
+    </ng-template>
+  </p-dialog>
+  
+  <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

@@ -1,0 +1,105 @@
+<!-- users.component.html -->
+<div class="card">
+  <p-toast></p-toast>
+  <p-toolbar styleClass="mb-4 gap-2">
+    <ng-template pTemplate="start" >
+      <strong>User</strong>
+    </ng-template>
+  <!-- <ng-template pTemplate="end">
+    <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" style="border-radius: 10px;" (click)="openNew()"></button>
+</ng-template> -->
+  </p-toolbar>
+  <p-table #dt1 [value]="users"  selectionMode="single" [(selection)]="editingUser" dataKey="email" [tableStyle]="{'min-width': '50rem'}" [paginator]="true" [rows]="10" stateStorage="session" stateKey="users-session">
+    <ng-template pTemplate="header" >
+      <tr >
+        <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
+        <th pSortableColumn="Name">Name <p-sortIcon field="Name"></p-sortIcon></th>
+        <!-- Add more columns based on your User model -->
+        <th>Actions</th>
+      </tr>
+      <tr>
+        <th>
+          <input pInputText type="text" (input)="dt1.filter($any($event.target).value, 'email', 'contains')" placeholder="Search by email" class="w-full" ngModelOptions="{ standalone: true }"/>
+        </th>
+        <th>
+          <input pInputText type="text" (input)="dt1.filter($any($event.target).value, 'Name', 'contains')" placeholder="Search by Name" class="w-full" ngModelOptions="{ standalone: true }"/>
+        </th>
+        <th></th>
+        <!-- Add more input fields for other columns -->
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+      <tr>
+        <td>{{ user.email }}</td>
+        <td>{{ user.Name }}</td>
+        
+        <!-- Add more columns based on your User model -->
+        <td>
+          <button id="edit" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editUser(user)"></button>
+          
+          <button id="delete" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteUser(user.ID)"></button>
+      </td>
+
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <div *ngIf="editing">
+    <h2>Edit User</h2>
+    <div>
+      <label for="editUserName">Name:</label>
+      <input pInputText type="text" id="editUserName" [(ngModel)]="editingUser.Name" required>
+    </div>
+    <div>
+      <label for="editUserScore">Score:</label>
+      <input pInputText type="number" id="editUserScore" [(ngModel)]="editingUser.Score" required>
+    </div>
+    <!-- Add more fields as needed -->
+
+    <button pButton type="button" label="Update" (click)="updateUser(editingUser.ID, editingUser)"></button>
+    <button pButton type="button" label="Cancel" (click)="cancelEdit()"></button>
+  </div>
+  <!-- Dialog -->
+  <p-dialog [(visible)]="productDialog" [style]="{ width: '450px' }" header="User Details" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content">
+      <!-- Customize the content based on your requirements -->
+      <div>
+        <label for="userID">Name: </label>
+        <input pInputText type="text" id="userID" name="userID" [(ngModel)]="newUser.Name" required>
+      </div>
+      <div>
+        <label for="name">Score: </label>
+        <input pInputText type="text" id="name" name="Name"  [(ngModel)]="newUser.Score" required>
+      </div>
+      <!-- Add more fields as needed -->
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+      <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="addUser()"></button>
+    </ng-template>
+  </p-dialog>
+
+  <p-dialog [(visible)]="editing" [style]="{ width: '450px' }" header="User Details" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content">
+      <!-- Customize the content based on your requirements -->
+      <div>
+        <label for="userID">Name: </label>
+        <input pInputText type="text" id="userID" name="userID" [(ngModel)]="editingUser.Name" required>
+      </div>
+      <div>
+        <label for="name">Score: </label>
+        <input pInputText type="number" id="name" name="Name"  [(ngModel)]="editingUser.Score" required>
+      </div>
+      <!-- Add more fields as needed -->
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="cancelEdit()"></button>
+  
+      <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="updateUser(editingUser.ID, editingUser)"></button>
+    </ng-template>
+  </p-dialog>
+
+
+</div>
+<br>
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

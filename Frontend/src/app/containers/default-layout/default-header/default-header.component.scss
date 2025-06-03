@@ -1,0 +1,7 @@
+.avatar-img {
+    width: 100%; /* Set the width to fill the container */
+    height: 100% !important; /* Maintain a 1:1 aspect ratio (width:height) */
+    object-fit: cover; /* Optional: Specify how the image should fit */
+  }
+
+  $avatar-height : 100%;

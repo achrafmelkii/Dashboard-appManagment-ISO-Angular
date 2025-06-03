@@ -1,0 +1,28 @@
+
+<div class="card text-center " style="display: flex; justify-content: center; align-items: center; height: 70vh;">
+   
+    <div class="p-d-flex p-jc-center p-ai-center p-flex-column p-shadow-3" style="padding: 2em; background-color: white; border-radius: 1em;">
+        <p-toast></p-toast>
+        <div class="p-field text-center" style="margin-bottom: 1em;">
+            <h2>Notification :</h2>
+            </div>
+        <div class="p-field" style="margin-bottom: 1em;">
+            <label for="title" class="p-sr-only">Enter the title</label>
+            <input id="title" type="text" pInputText [(ngModel)]="title" placeholder="Enter the title">
+       
+        <div class="p-field" style="margin-bottom: 1em;">
+            <label for="message" class="p-sr-only">Enter your message</label>
+            <input id="message" type="text" pInputText [(ngModel)]="message" placeholder="Enter your message">
+        </div>
+        <div class="p-field" style="margin-bottom: 1em;">
+            <label for="datetime" class="p-sr-only">Enter the datetime</label>
+            <input id="datetime" type="datetime-local" pInputText [(ngModel)]="datetime" placeholder="Enter the datetime">
+          </div>
+        <div style="margin-top: 1em;">
+            <button pButton pRipple class="p-button-rounded p-button-success"  (click)="sendMessage()">Send</button>
+        </div>
+       
+    </div>
+</div>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

@@ -1,0 +1,155 @@
+<div class="card">
+    <p-toast></p-toast>
+    <p-toolbar styleClass="mb-4 gap-2">
+        <ng-template pTemplate="start" >
+            <strong>Challenge</strong>
+          </ng-template>
+    <ng-template pTemplate="end">
+        <div class="flex align-items-center gap-2">
+            <button pButton pRipple label="Add Challenge" icon="pi pi-plus"  class="p-button-success mr-2" style="border-radius: 10px;" (click)="openNew()"></button>
+          </div>
+  </ng-template>
+    </p-toolbar>
+    <p-table #dt1 [value]="challenges"  selectionMode="single" [(selection)]="editingChallenge" dataKey="ID" [tableStyle]="{'min-width': '50rem'}" [paginator]="true" [scrollable]="true" [rows]="10" stateStorage="session" stateKey="statedemo-session">
+      <ng-template pTemplate="header">
+        <tr>
+        
+          <th pSortableColumn="Title">Title <p-sortIcon field="Title"></p-sortIcon></th>
+          <th pSortableColumn="Text">Description <p-sortIcon field="Text"></p-sortIcon></th>
+          <th style="text-align: center;" pSortableColumn="DaysNum" style="max-width:120px">Day Numbers <p-sortIcon field="DaysNum"></p-sortIcon></th>
+          <th style="text-align: center;" pSortableColumn="ExpPts" style="max-width:120px">Exp Points<p-sortIcon field="ExpPts"></p-sortIcon></th>
+          <th style="text-align: center;" pSortableColumn="CarbPts" style="max-width:120px">Carbon Points<p-sortIcon field="CarbPts"></p-sortIcon></th>
+          <th>Actions</th>
+        </tr>
+        <tr>
+         
+          <th>
+            <input pInputText type="text" (input)="dt1.filter($any($event.target).value, 'Title', 'contains')" placeholder="Search by Title" class="w-full" ngModelOptions="{ standalone: true }"/>
+          </th>
+          <th>
+  
+            <input pInputText type="text" (input)="dt1.filter($any($event.target).value, 'Text', 'contains')" placeholder="Search by Description" class="w-full" ngModelOptions="{ standalone: true }"/>
+          </th>
+          
+          <th style="text-align: center;">
+  
+            <input style="max-width:120px" pInputText type="number" (input)="dt1.filter($any($event.target).value, 'DaysNum', 'contains')" placeholder="Search by Day Numbers" class="w-full" ngModelOptions="{ standalone: true }"/>
+          </th>
+          <th style="text-align: center;">
+  
+            <input style="max-width:120px"  pInputText type="text" (input)="dt1.filter($any($event.target).value, 'ExpPts', 'contains')" placeholder="Search by Exp Points" class="w-full" ngModelOptions="{ standalone: true }"/>
+          </th>
+          <th style="text-align: center;">
+  
+            <input style="max-width:120px"  pInputText type="text" (input)="dt1.filter($any($event.target).value, 'CarbPts', 'contains')" placeholder="Search by Carbon Points" class="w-full" ngModelOptions="{ standalone: true }"/>
+          </th>
+          <th></th>
+          <!-- Add more input fields for other columns -->
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-challenge>
+        <tr>
+         
+          <td>{{ challenge.Title }}</td>
+          <td>{{ challenge.Text  }}</td>
+          <td style="text-align: center;">{{ challenge.DaysNum }}</td>
+          <td style="text-align: center;">{{ challenge.ExpPts }}</td>
+          <td style="text-align: center;">{{ challenge.CarbPts }}</td>
+          <td>
+            <button  id="edit" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editChallenge(challenge)"></button>
+  
+            <button id="delete" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteChallenge(challenge.ID)"></button>
+        </td>
+  
+        </tr>
+      </ng-template>
+    </p-table>
+  
+  
+  
+  
+    <div *ngIf="editingChallenge">
+      <h2>Edit Challenge</h2>
+      <div>
+        <label for="editChallengeTitle">Title:</label>
+        <input pInputText type="text" id="editChallengeTitle" [(ngModel)]="editingChallenge.title" required>
+      </div>
+      <div>
+        <label for="edithallengeDescription">Description:</label>
+        <input pInputText type="number" id="edithallengeDescription" [(ngModel)]="editingChallenge.Description" required>
+      </div>
+      <!-- Add more fields as needed -->
+  
+      <button pButton type="button" label="Update" (click)="updateChallenge(editingChallenge.ID, editingChallenge)"></button>
+      <button pButton type="button" label="Cancel" (click)="cancelEdit()"></button>
+    </div>
+    <!-- Dialog -->
+    <p-dialog [(visible)]="productDialog" [style]="{ width: '450px' }" header="Challenge Details" [modal]="true" styleClass="p-fluid">
+      <ng-template pTemplate="content">
+        <div>
+          <label for="title">Title: </label>
+          <input pInputText type="text" id="title" name="title" [(ngModel)]="newChallenge.Title" required>
+        </div>
+        <div>
+          <label for="description">Description: </label>
+          <input pInputText type="text" id="description" name="description"  [(ngModel)]="newChallenge.Text" required>
+        </div>
+        <div>
+          <label for="daysNum">Days Number: </label>
+          <input pInputText type="number" id="daysNum" name="daysNum" [(ngModel)]="newChallenge.DaysNum" required>
+        </div>
+     
+        <div>
+          <label for="carbPts">Carb Points: </label>
+          <input pInputText type="number" id="carbPts" name="carbPts" [(ngModel)]="newChallenge.CarbPts" required>
+        </div>
+        <div>
+          <label for="expPts">Experience Points: </label>
+          <input pInputText type="number" id="expPts" name="expPts" [(ngModel)]="newChallenge.ExpPts" required>
+        </div>
+        <!-- Add more fields as needed -->
+      </ng-template>
+      <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="addChallenge()"></button>
+      </ng-template>
+    </p-dialog>
+    
+  
+    <p-dialog [(visible)]="editingChallenge" [style]="{ width: '450px' }" header="Challenge Details" [modal]="true" styleClass="p-fluid">
+      <ng-template pTemplate="content">
+        <!-- Customize the content based on your requirements -->
+        <div>
+            <label for="title">Title: </label>
+            <input pInputText type="text" id="title" name="title" [(ngModel)]="editingChallenge.Title" required>
+          </div>
+          <div>
+            <label for="description">Description: </label>
+            <input pInputText type="text" id="description" name="description"  [(ngModel)]="editingChallenge.Text" required>
+          </div>
+          <div>
+            <label for="daysNum">Days Number: </label>
+            <input pInputText type="number" id="daysNum" name="daysNum" [(ngModel)]="editingChallenge.DaysNum" required>
+          </div>
+       
+          <div>
+            <label for="carbPts">Carb Points: </label>
+            <input pInputText type="number" id="carbPts" name="carbPts" [(ngModel)]="editingChallenge.CarbPts" required>
+          </div>
+          <div>
+            <label for="expPts">Experience Points: </label>
+            <input pInputText type="number" id="expPts" name="expPts" [(ngModel)]="editingChallenge.ExpPts" required>
+          </div>
+        <!-- Add more fields as needed -->
+      </ng-template>
+      <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="cancelEdit()"></button>
+    
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="updateChallenge(editingChallenge.ID, editingChallenge)"></button>
+      </ng-template>
+    </p-dialog>
+  
+  
+  </div>
+  <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+  

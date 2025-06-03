@@ -1,0 +1,113 @@
+<!-- users.component.html -->
+<div *ngIf="isLoading">
+    <!-- Display loading indicator here -->
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+<div *ngIf="!isLoading" class="card">
+    <p-toast></p-toast>
+  
+    <p-table #dt1 [value]="urls"  selectionMode="single" [(selection)]="url" dataKey="name" [tableStyle]="{'min-width': '50rem'}" [paginator]="true" [rows]="10" stateStorage="session" stateKey="statedemo-session">
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
+          <th>Url</th>
+          <!-- Add more columns based on your User model -->
+          <th>Actions</th>
+        </tr>
+        <tr>
+          <th>
+            <input pInputText type="text" (input)="dt1.filter($any($event.target).value, 'name', 'contains')" placeholder="Search by Name" class="w-full" ngModelOptions="{ standalone: true }"/>
+          </th>
+          <th>
+           
+          </th>
+          <th></th>
+          <!-- Add more input fields for other columns -->
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-url>
+        <tr>
+          <td>{{ url.name }}</td>
+          <td title="{{url.link}}">{{ truncateLink(url.link) }}</td>
+          
+          <td>
+            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editUrl(url)"></button>
+            <br>
+        </td>
+  
+        </tr>
+      </ng-template>
+  
+    </p-table>
+</div>  
+      <div *ngIf="Editing">
+          
+  
+          <!-- Dialog -->
+          <p-dialog [(visible)]="Editing" [style]="{ width: '900px' }" header="Change Video" [modal]="true" styleClass="p-fluid" [draggable]="false">
+              <ng-template pTemplate="content">
+                  <div>
+                      <label for="Video">Name of the video:</label>
+                      <input pInputText type="text" id="Video" [(ngModel)]="newUrl.link" [disabled]="true">
+                  </div>
+                  <div>
+                    <label for="Video">Upload New Video:</label>
+                 <input pInputText type="file" id="Video" accept="video/*" (change)="onFileSelected($event)" required>
+           </div>
+           <br>
+           
+           <div style="display: flex; justify-content: center; align-items: center;">
+                  <video *ngIf="newVideoUrl" controls style="width: 100%; max-width: 600px; ">
+                    <source [src]="newVideoUrl" type="video/mp4">
+                    Your browser does not support the video tag.
+                  </video>
+                  <video *ngIf="!newVideoUrl" controls style="width: 100%; max-width: 600px; ">
+                    <source [src]="newUrl.link" type="video/mp4">
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+              </ng-template>
+              <ng-template pTemplate="footer">
+                  <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+                  <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="confirmEditingVideo()"></button>
+              </ng-template>
+          </p-dialog>
+      </div>
+  
+      <div *ngIf="EditingRSS">
+          
+  
+          <!-- Dialog -->
+          <p-dialog [(visible)]="EditingRSS" [style]="{ width: '450px' }" header="Change RSS link" [modal]="true" styleClass="p-fluid">
+              <ng-template pTemplate="content">
+                  <div>
+                      <label for="Feed">Change feed url:</label>
+                      <input pInputText type="text" id="Feed" [(ngModel)]="newUrl.link">
+                  </div>
+              </ng-template>
+              <ng-template pTemplate="footer">
+                  <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+                  <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="updateFeedUrl()"></button>
+              </ng-template>
+          </p-dialog>
+      </div>
+  
+      <div *ngIf="EditingPolitique">
+          
+  
+          <!-- Dialog -->
+          <p-dialog header="Header" [(visible)]="EditingPolitique" [style]="{ width: '450px' }" header="Change Politique PDF" [modal]="true" styleClass="p-fluid">
+              <ng-template pTemplate="content">
+                  <div>
+                      <label for="PDF">Change Politique URL:</label>
+                      <input pInputText type="text" id="PDF" [(ngModel)]="newUrl.link">
+                  </div>
+              </ng-template>
+              <ng-template pTemplate="footer">
+                  <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+                  <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="updatePolitiqueUrl()"></button>
+              </ng-template>
+          </p-dialog>
+      </div>
+  <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+  
